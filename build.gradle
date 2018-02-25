@@ -1,0 +1,50 @@
+plugins {
+    id 'groovy'
+    id 'java'
+    id 'idea'
+    id 'eclipse'
+    id 'jaci.openrio.gradle.GradleRIO' version '2018.01.22'
+}
+
+def TEAM = 5431
+def ROBOT_CLASS = "frc.team5431.robot.Robot"
+
+sourceCompatibility = 1.8
+
+// Targets (RoboRIO) and artifacts (deployable files)
+deploy {
+    targets {
+        target("roborio", jaci.openrio.gradle.frc.RoboRIO) {
+            team = TEAM
+        }
+    }
+    artifacts {
+        artifact('frcJava', jaci.openrio.gradle.frc.FRCJavaArtifact) {
+            targets << "roborio"
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+// WPILib (+ friends), CTRE Phoenix (Talon SRX) and NavX.
+dependencies {
+    compile wpilib()
+    compile ctre()
+    compile navx()
+    compile openrio.powerup.matchData()
+    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+//Add all of the libraries into one jar
+jar {
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    manifest jaci.openrio.gradle.GradleRIOPlugin.javaManifest(ROBOT_CLASS)
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.4'
+}
