@@ -1,10 +1,13 @@
 package frc.team5431.robot;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 public class Robot extends IterativeRobot {
     @Override
-    public void robotInit() { }
+    public void robotInit() {
+        WPI_TalonSRX a = new WPI_TalonSRX(0);
+    }
 
     @Override
     public void disabledInit() { }

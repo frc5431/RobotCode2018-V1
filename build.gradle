@@ -1,3 +1,7 @@
+import jaci.openrio.gradle.GradleRIOPlugin
+import jaci.openrio.gradle.frc.FRCJavaArtifact
+import jaci.openrio.gradle.frc.RoboRIO
+
 plugins {
     id 'groovy'
     id 'java'
@@ -11,15 +15,20 @@ def ROBOT_CLASS = "frc.team5431.robot.Robot"
 
 sourceCompatibility = 1.8
 
+configurations.all {
+    //Check for updates of selected packages every minute (Only checked when built [don't worry])
+    resolutionStrategy.cacheChangingModulesFor 60, 'seconds'
+}
+
 // Targets (RoboRIO) and artifacts (deployable files)
 deploy {
     targets {
-        target("roborio", jaci.openrio.gradle.frc.RoboRIO) {
+        target("roborio", RoboRIO) {
             team = TEAM
         }
     }
     artifacts {
-        artifact('frcJava', jaci.openrio.gradle.frc.FRCJavaArtifact) {
+        artifact('frcJava', FRCJavaArtifact) {
             targets << "roborio"
         }
     }
@@ -27,6 +36,7 @@ deploy {
 
 repositories {
     mavenCentral()
+    maven { url "https://jitpack.io" }
 }
 
 // WPILib (+ friends), CTRE Phoenix (Talon SRX) and NavX.
@@ -35,14 +45,15 @@ dependencies {
     compile ctre()
     compile navx()
     compile openrio.powerup.matchData()
-    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    compile('org.codehaus.groovy:groovy-all:2.3.11')
+    compile('com.github.frc5431:TitanUtil:1.1.2') { changing = true } //Check for updates
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
 //Add all of the libraries into one jar
 jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    manifest jaci.openrio.gradle.GradleRIOPlugin.javaManifest(ROBOT_CLASS)
+    manifest GradleRIOPlugin.javaManifest(ROBOT_CLASS)
 }
 
 task wrapper(type: Wrapper) {
