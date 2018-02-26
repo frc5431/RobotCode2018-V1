@@ -3,7 +3,6 @@ import jaci.openrio.gradle.frc.FRCJavaArtifact
 import jaci.openrio.gradle.frc.RoboRIO
 
 plugins {
-    id 'groovy'
     id 'java'
     id 'idea'
     id 'eclipse'
