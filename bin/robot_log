@@ -1,6 +1,10 @@
 #!/bin/bash
 
-echo "Starting logcat!"
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+CWD="$(pwd)"
 
-adb logcat --clear
-adb logcat -s "TapIt"
+echo "Starting Riolog!"
+cd $PROJECT_DIR
+./gradlew riolog
+cd $CWD
+echo "Done"

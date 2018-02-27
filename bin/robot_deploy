@@ -1,6 +1,10 @@
 #!/bin/bash
 
-echo "Building and deploying application to the device"
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+CWD="$(pwd)"
 
-./tapit_build
-./tapit_install
+echo "Deploying Robot Code (Team 5431)"
+cd $PROJECT_DIR
+./gradlew deploy
+cd $CWD
+echo "Done"

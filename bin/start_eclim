@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo "Starting eclim..."
+pgrep "Xvfb"
+if [ $? -eq 0 ]; then
+	echo "Virtual display already running..."
+else
+	Xvfb :1 -screen 0 1024x768x24 &
+fi
+
+pgrep "eclim"
+if [ $? -eq 0 ]; then
+	echo "Eclim is already running!"
+else
+	DISPLAY=:1 nohup /usr/local/eclipse/eclimd -b &
+fi
+echo "Done!"
