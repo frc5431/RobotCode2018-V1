@@ -1,0 +1,30 @@
+#!/bin/bash
+
+SESSION="Robot"
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+JAVA_FOLDER="$PROJECT_DIR/src/main/java/frc/team5431/robot"
+WINDOW_ONE_NAME="Source"
+WINDOW_TWO_NAME="Driver Station"
+
+tmux start-server
+
+tmux select-pane -t :1
+tmux new-session -d -s $SESSION -n $WINDOW_ONE_NAME
+tmux send-keys "cd $JAVA_FOLDER; vim +'call LoadRobotProject()'" C-m
+
+# Split the source window
+# tmux split-window -t 1 -h -p 45 -c "$PROJECT_DIR"
+# tmux select-pane -t 2
+# tmux send-keys "cd $JAVA_FOLDER; " C-m
+
+tmux new-window
+tmux rename-window $WINDOW_TWO_NAME
+
+tmux split-window -t 1 -v -p 62 -c "$PROJECT_DIR"
+tmux select-pane -t 1
+tmux send-keys "cd $PROJECT_DIR/bin; clear " C-m "./robot_deploy"
+
+tmux select-pane -t 2
+tmux send-keys "cd $PROJECT_DIR/bin; clear; ./driver_station" C-m
+
+tmux -2 attach -t $SESSION

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "Installing driver_station depends"
+
+sudo apt-get update
+printf 'Y\nY\nY\n' | sudo apt-get install libsdl1.2-dev ncurses-dev
+
+echo "Done!"

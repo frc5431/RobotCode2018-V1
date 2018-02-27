@@ -1,0 +1,10 @@
+#!/bin/bash
+
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+CWD="$(pwd)"
+
+echo "Building Robot Code (Team 5431)"
+cd $PROJECT_DIR
+./gradlew build
+cd $CWD
+echo "Done"

@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+org.eclim.java.import.exclude=["^com.sun..*","^sunw?..*"]
+org.eclim.java.run.mainclass=frc.team5431.robot.Robot
+org.eclim.project.copyright=GNU Public License V3
+org.eclim.user.email=smerkousdavid@gmail.com
+org.eclim.user.name=smerkousdavid
